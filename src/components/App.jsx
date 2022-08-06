@@ -18,10 +18,11 @@ export class App extends Component {
 
   addContact = ({ name, number }) => {
     const newContact = { id: nanoid(), name, number };
-
-    this.setState(({ contacts }) => ({
-      contacts: [newContact, ...contacts],
-    }));
+    this.state.contacts.find(contact => contact.name === name)
+      ? alert('Sorry')
+      : this.setState(({ contacts }) => ({
+          contacts: [newContact, ...contacts],
+        }));
   };
 
   filterHandler = e => {
@@ -55,7 +56,7 @@ export class App extends Component {
           <Filter value={filter} onChange={this.filterHandler} />
           <ContactList
             contacts={this.filterContactList()}
-            onDelete={this.deleteContact}
+            onDeleteContact={this.deleteContact}
           />
         </Box>
       </Box>
