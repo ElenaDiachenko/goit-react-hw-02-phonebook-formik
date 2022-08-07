@@ -48,7 +48,7 @@ export class App extends Component {
     const { filter } = this.state;
 
     return (
-      <Box as="section" m={4}>
+      <Box m={5}>
         <h1>Phonebook</h1>
         <ContactForm onSubmit={this.addContact} />
         <Box>
