@@ -30,7 +30,7 @@ export const theme = {
   },
   borders: {
     none: 'none',
-    normal: '1px solid',
+    normal: '2px solid',
   },
   radii: {
     none: '0',

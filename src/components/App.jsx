@@ -1,9 +1,9 @@
 import { Component } from 'react';
-import { Box } from './Box';
 import { nanoid } from 'nanoid';
 import { ContactForm } from './ContactForm/ContactForm';
 import { ContactList } from './ContactList/ContactList';
 import { Filter } from './Filter/Filter';
+import { Title, TitleContact, Section } from './App.styled';
 
 export class App extends Component {
   state = {
@@ -18,6 +18,7 @@ export class App extends Component {
 
   addContact = ({ name, number }) => {
     const newContact = { id: nanoid(), name, number };
+
     this.state.contacts.find(contact => contact.name === name)
       ? alert('Sorry')
       : this.setState(({ contacts }) => ({
@@ -46,20 +47,20 @@ export class App extends Component {
   };
   render() {
     const { filter } = this.state;
+    const { addContact, filterHandler, deleteContact } = this;
+    const filterContactList = this.filterContactList();
 
     return (
-      <Box m={5}>
-        <h1>Phonebook</h1>
-        <ContactForm onSubmit={this.addContact} />
-        <Box>
-          <h2>Contacts</h2>
-          <Filter value={filter} onChange={this.filterHandler} />
-          <ContactList
-            contacts={this.filterContactList()}
-            onDeleteContact={this.deleteContact}
-          />
-        </Box>
-      </Box>
+      <Section>
+        <Title>Phonebook</Title>
+        <ContactForm onSubmit={addContact} />
+        <TitleContact>Contacts</TitleContact>
+        <Filter value={filter} onChange={filterHandler} />
+        <ContactList
+          contacts={filterContactList}
+          onDeleteContact={deleteContact}
+        />
+      </Section>
     );
   }
 }
