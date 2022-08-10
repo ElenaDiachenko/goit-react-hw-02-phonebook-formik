@@ -3,7 +3,8 @@ import { nanoid } from 'nanoid';
 import { ContactForm } from './ContactForm/ContactForm';
 import { ContactList } from './ContactList/ContactList';
 import { Filter } from './Filter/Filter';
-import { Title, TitleContact, Section } from './App.styled';
+import { Message } from './Message/Message';
+import { Title, TitleContact, Section, Button } from './App.styled';
 
 export class App extends Component {
   state = {
@@ -20,7 +21,7 @@ export class App extends Component {
     const newContact = { id: nanoid(), name, number };
 
     this.state.contacts.find(contact => contact.name === name)
-      ? alert(`${name} is already in contacts`)
+      ? this.toggleMessage()
       : this.setState(({ contacts }) => ({
           contacts: [newContact, ...contacts],
         }));
@@ -45,13 +46,28 @@ export class App extends Component {
       contacts: prevState.contacts.filter(contact => contact.id !== contactId),
     }));
   };
+
+  toggleMessage = () => {
+    this.setState(({ showMessage }) => ({
+      showMessage: !showMessage,
+    }));
+  };
+
   render() {
-    const { filter } = this.state;
+    const { filter, showMessage } = this.state;
     const { addContact, filterHandler, deleteContact } = this;
     const filterContactList = this.filterContactList();
 
     return (
       <Section>
+        {showMessage && (
+          <Message onClose={this.toggleMessage}>
+            <TitleContact>This name is already in contacts</TitleContact>
+            <Button type="button" onClick={this.toggleMessage}>
+              OK
+            </Button>
+          </Message>
+        )}
         <Title>Phonebook</Title>
         <ContactForm onSubmit={addContact} />
         <TitleContact>Contacts</TitleContact>
