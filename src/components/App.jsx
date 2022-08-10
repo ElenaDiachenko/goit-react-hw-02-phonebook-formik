@@ -4,6 +4,7 @@ import { ContactForm } from './ContactForm/ContactForm';
 import { ContactList } from './ContactList/ContactList';
 import { Filter } from './Filter/Filter';
 import { Message } from './Message/Message';
+import { Notify } from 'notiflix';
 import { Title, TitleContact, Section, Button } from './App.styled';
 
 export class App extends Component {
@@ -21,7 +22,18 @@ export class App extends Component {
     const newContact = { id: nanoid(), name, number };
 
     this.state.contacts.find(contact => contact.name === name)
-      ? this.toggleMessage()
+      ? Notify.info(`${name} is already in contacts`, {
+          position: 'center-top',
+          fontSize: '20px',
+          width: '450px',
+          borderRadius: '4px',
+          closeButton: true,
+          info: {
+            background: '#000000',
+            color: '#ffffff',
+            notiflixIconColor: 'rgba(225,225,225,0.5)',
+          },
+        })
       : this.setState(({ contacts }) => ({
           contacts: [newContact, ...contacts],
         }));
